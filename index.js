@@ -17,14 +17,9 @@ const alteredColor = document.getElementById("alteredColor");
 const alteredColorText = document.getElementById("alteredColorText");
 const slider = document.getElementById("slider");
 const sliderText = document.getElementById("sliderText");
-
-
-hexInput.addEventListener('keyup', () => {
-    const hex = hexInput.value;
-    if (!isValidHex(hex)) return;
-    strippedHex = hex.replace("#", "");
-    inputColor.style.backgroundColor = "#" + strippedHex;
-})
+const toggleBtn = document.getElementById("toggleBtn");
+const lightenText = document.getElementById("lightenText");
+const darkenText = document.getElementById("darkenText");
 
 const convertHexToRGB = (hex) => {
     if (!isValidHex(hex)) return null;
@@ -58,22 +53,6 @@ const convertRGBToHex = (r, g, b) => {
     return hexValue;
 }
 
-slider.addEventListener("input", () => {
-    if (!isValidHex(hexInput.value)) return false;
-
-    sliderText.textContent = `${slider.value}%`;
-    const alteredHex = alterColor(hexInput.value, slider.value);
-    alteredColor.style.backgroundColor = alteredHex;
-    alteredColorText.innerText = `Altered Color ${alteredHex}`;
-});
-
-
-//Create the alterColor function which accepts hex value and percentage
-//convert the hex value to rgb
-//increase each r,g,b value by appropriate amount (percentage of 255)
-//use the new r,g,b values to convert to a hex value
-//return the hex value
-
 const alterColor = (hex, percentage) => {
     const { r, g, b } = convertHexToRGB(hex);
     const amount = Math.floor((percentage / 100) * 255);
@@ -90,3 +69,32 @@ const increaseWithInRange = (hex, amount) => {
     if (newHex < 0) return 0;
     return newHex;
 }
+
+slider.addEventListener("input", () => {
+    if (!isValidHex(hexInput.value)) return false;
+
+    sliderText.textContent = `${slider.value}%`;
+    const alteredHex = alterColor(hexInput.value, slider.value);
+    alteredColor.style.backgroundColor = alteredHex;
+    alteredColorText.innerText = `Altered Color ${alteredHex}`;
+});
+
+hexInput.addEventListener('keyup', () => {
+    const hex = hexInput.value;
+    if (!isValidHex(hex)) return;
+    strippedHex = hex.replace("#", "");
+    inputColor.style.backgroundColor = "#" + strippedHex;
+})
+
+toggleBtn.addEventListener("click", () => {
+    if (toggleBtn.classList.contains("toggled")) {
+        toggleBtn.classList.remove("toggled");
+        lightenText.classList.remove("unselected");
+        darkenText.classList.add("unselected");
+    } else {
+        toggleBtn.classList.add("toggled");
+        lightenText.classList.add("unselected");
+        darkenText.classList.remove("unselected");
+    }
+})
+
