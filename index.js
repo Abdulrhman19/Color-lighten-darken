@@ -80,8 +80,6 @@ const alterColor = (hex, percentage) => {
     const newR = increaseWithInRange(r, amount);
     const newG = increaseWithInRange(g, amount);
     const newB = increaseWithInRange(b, amount);
-    console.log({ newR, newG, newB });
-
     return convertRGBToHex(newR, newG, newB);
 }
 
